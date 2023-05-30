@@ -2,7 +2,7 @@
   <<< Author notes: Header of the course >>>
   Include a 1280x640 image, course title in sentence case, and a concise description in emphasis.
   In your repository settings: enable template repository, add your 1280x640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
+  Add your open source license, GitHub uses Creative Commons Attribution 4.0 International.
 -->
 
 # Deploy to Azure
@@ -10,12 +10,16 @@
 _Create two deployment workflows using GitHub Actions and Microsoft Azure._
 
 <!--
-  <<< Author notes: Course start >>>
+  <<< Author notes: Start of the course >>>
   Include start button, a note about Actions minutes,
   and tell the learner why they should take the course.
+  Each step should be wrapped in <details>/<summary>, with an `id` set.
+  The start <details> should have `open` as well.
+  Do not use quotes on the <details> tag attributes.
 -->
 
-## Welcome
+<details id=0>
+<summary><h2>Welcome</h2></summary>
 
 Create two deployment workflows using GitHub Actions and Microsoft Azure.
 
@@ -23,15 +27,9 @@ Create two deployment workflows using GitHub Actions and Microsoft Azure.
 - **What you'll learn**: We'll learn how to create a workflow that enables Continuous Delivery using GitHub Actions and Microsoft Azure.
 - **What you'll build**: We will create two deployment workflows - the first workflow to deploy to staging based on a label and the second workflow to deploy to production based on merging to main.
 - **Prerequisites**: Before you start, you should be familiar with GitHub, GitHub Actions, and Continuous Integration with GitHub Actions.
-- **How long**: This course takes less than 2 hours to complete.
+- **How long**: This course is 6 steps long and takes less than 2 hours to complete.
 
-In this course, you will:
-
-1.
-2.
-3.
-
-### How to start this course
+## How to start this course
 
 <!-- For start course, run in JavaScript:
 'https://github.com/new?' + new URLSearchParams({
@@ -53,9 +51,10 @@ In this course, you will:
    - Scroll down and click the **Create repository** button at the bottom of the form.
 3. After your new repository is created, wait about 20 seconds, then refresh the page. Follow the step-by-step instructions in the new repository's README.
 
+</details>
 
-
-## Step 1: Trigger a job based on labels
+<details id=1 open>
+<summary><h2>Step 1: Trigger a job based on labels</h2></summary>
 
 _Welcome to the course :tada:_
 
@@ -104,10 +103,11 @@ For now, we'll focus on staging. We'll spin up and destroy our environment in a 
 
 > **Note**: Wait about 1 minute then refresh this page for GitHub Actions to run before continuing to the next step.
 
+</details>
 
 
-
-## Step 2: Set up an Azure environment
+<details id=2>
+<summary><h2>Step 2: Set up an Azure environment</h2></summary>
 
 _Good job getting started :gear:_
 
@@ -282,16 +282,17 @@ We won't be going into detail on the steps of this workflow, but it would be a g
               az cache purge
               az account clear
   ```
-
+  </details>
 
 16. After you've edited the file, click **Commit changes...** and commit to the `staging-workflow` branch.
 
 > **Note**: Wait about 1 minute then refresh this page for GitHub Actions to run before continuing to the next step.
 
+</details>
 
 
-
-## Step 3: Spin up an environment based on labels
+<details id=3>
+<summary><h2>Step 3: Spin up an environment based on labels</h2></summary>
 
 _Nicely done! :heart:_
 
@@ -392,7 +393,7 @@ To deploy successfully to our Azure environment:
           run: |
             az group delete --name ${{env.AZURE_RESOURCE_GROUP}} --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --yes
   ```
-
+  </details>
 
 3. Click **Commit changes...** and select `Commit directly to the azure-configuration branch.` before clicking **Commit changes**.
 4. Go to the Pull requests tab of the repository.
@@ -431,9 +432,10 @@ The second job destroys Azure resources so that you do not use your free minutes
 1. Wait for the GitHub Actions workflow to run and spin up your Azure environment. You can follow along in the Actions tab or in the pull request merge box.
 1. Once the workflow succeeds, refresh this page for the next step.
 
+</details>
 
-
-## Step 4: Deploy to a staging environment based on labels
+<details id=4>
+<summary><h2>Step 4: Deploy to a staging environment based on labels</h2></summary>
 
 _Nicely done, you used a workflow to spin up your Azure environment  :dancer:_
 
@@ -451,9 +453,10 @@ Now that the proper configuration and workflow files are present, let's test our
 1. Wait for the GitHub Actions workflow to run and deploy the application to your Azure environment. You can follow along in the Actions tab or in the pull request merge box. The deployment may take a few moments but you've done the right thing. Once the deployment is successful, you'll see green check marks for each run, and you'll see a URL for your deployment. Play the game!
 1. Once the workflow has completed, refresh this page for the next step.
 
+</details>
 
-
-## Step 5: Deploy to a production environment based on labels
+<details id=5>
+<summary><h2>Step 5: Deploy to a production environment based on labels</h2></summary>
 
 _Deployed! :ship:_
 
@@ -580,9 +583,10 @@ Great! The syntax you used tells GitHub Actions to only run that workflow when a
 1. Now we just have to wait for the package to be published to GitHub Container Registry and the deployment to occur. When the workflow is finished running, refresh this page for the next step.
 
 
+</details>
 
-
-## Step 6: Production deployment
+<details id=6>
+<summary><h2>Step 6: Production deployment</h2></summary>
 
 _Nice work! :sparkle:_
 
@@ -599,14 +603,15 @@ Throughout the course you've spun up resources that, if left unattended, could i
 
 2. Wait about 1 minute then refresh this page for the next step.
 
-
+</details>
 
 <!--
   <<< Author notes: Finish >>>
   Review what we learned, ask for feedback, provide next steps.
 -->
 
-## Finish
+<details id=X>
+<summary><h2>Finish</h2></summary>
 
 <img src=https://octodex.github.com/images/octdrey-catburn.jpg alt=celebrate width=300 align=right>
 
@@ -628,7 +633,7 @@ Here's a recap of all the tasks you've accomplished in your repository:
 - [Read the GitHub Getting Started docs](https://docs.github.com/en/get-started).
 - To find projects to contribute to, check out [GitHub Explore](https://github.com/explore).
 
-
+</details>
 
 <!--
   <<< Author notes: Footer >>>
@@ -638,4 +643,4 @@ Here's a recap of all the tasks you've accomplished in your repository:
 ---
 Get help: [Post in our discussion board](https://github.com/skills/.github/discussions) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
 
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+&copy; 2022 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)

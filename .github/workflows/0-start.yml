@@ -1,19 +1,18 @@
-name: Step 1, Trigger a job based on labels
+name: Step 0, Start
 
-# This step triggers after 0-start.yml
-# This step sets STEP to 2
-# This step closes <details id=1> and opens <details id=2>
+# This step triggers after the learner creates a new repository from the template
+# This step sets STEP to 1
+# This step closes <details id=0> and opens <details id=1>
 
-# This will run every time we push to the deploy-staging.yml file on the staging-workflow branch
+# When creating a repository from a template, there is variability in the 
+# order and timing of events that fire and when workflow triggers are registered. 
+# Given that, these triggers are purposely broad to ensure this workflow is always triggered.
+# The conditions within the on_start job are to ensure it is only fully executed once.
 # Reference https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
 on:
+  create:
   workflow_dispatch:
-  push:
-    branches:
-      - staging-workflow
-    paths:
-      - .github/workflows/deploy-staging.yml
-
+  
 permissions:
   # Need `contents: read` to checkout the repository
   # Need `contents: write` to update the step metadata
@@ -34,18 +33,18 @@ jobs:
     outputs:
       current_step: ${{ steps.get_step.outputs.current_step }}
 
-  on_staging_workflow_update:
-    name: On staging workflow update
+  on_start:
+    name: On start
     needs: get_current_step
 
     # We will only run this action when:
     # 1. This repository isn't the template repository
-    # 2. The STEP is currently 1
+    # 2. The STEP is currently 0
     # Reference https://docs.github.com/en/actions/learn-github-actions/contexts
     # Reference https://docs.github.com/en/actions/learn-github-actions/expressions
     if: >-
       ${{ !github.event.repository.is_template
-          && needs.get_current_step.outputs.current_step == 1 }}
+          && needs.get_current_step.outputs.current_step == 0 }}
 
     # We'll run Ubuntu for performance instead of Mac or Windows
     runs-on: ubuntu-latest
@@ -57,19 +56,18 @@ jobs:
         with:
           fetch-depth: 0 # Let's get all the branches
 
-      # Verify the learner added the specific label triggers
-      - name: Verify workflow
-        run: ./.github/script/check-file.sh
-        env:
-          FILE: .github/workflows/deploy-staging.yml
-          SEARCH: "github.event.pull_request.labels\\.\\*.name.*stage"
-
-      # Update README to close <details id=1> and open <details id=2>
-      # and set STEP to '2'
-      - name: Update to step 2
+      # Update README to comment out step0 and open <details id=1>
+      # and set STEP to '1'
+      - name: Update to step 1
         uses: skills/action-update-step@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          from_step: 1
-          to_step: 2
-          branch_name: staging-workflow
+          from_step: 0
+          to_step: 1
+
+      # This is required to establish a related history for branches
+      # after being created from the template repository
+      - name: Initialize repository
+        run: ./.github/script/initialize-repository.sh --dry-run=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
